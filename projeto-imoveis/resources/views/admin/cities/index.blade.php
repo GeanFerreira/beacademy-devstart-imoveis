@@ -24,7 +24,7 @@
         </table>
 
         <div class="fixed-action-btn">
-            <a class="btn-floating btn-large waves-effect waves-light" href="">
+            <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('admin.cities.create') }}">
                 <i class="large material-icons">add</i>
             </a>
         </div>

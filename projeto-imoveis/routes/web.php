@@ -5,10 +5,10 @@ use App\Http\Controllers\Admin\CityController;
 
 Route::redirect('/', '/admin/cities');
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->name('admin.')->group(function (){
 
-    Route::get('/cities', [CityController::class, 'index']);
-    Route::get('/cities/add', [CityController::class, 'formAdd']);
+    Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
+    Route::get('/cities/create', [CityController::class, 'create'])->name('cities.create');
 
 });
 

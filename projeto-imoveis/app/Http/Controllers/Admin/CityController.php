@@ -17,8 +17,8 @@ class CityController extends Controller
         return view('admin.cities.index', compact('subtitle', 'cities'));
     }
 
-    public function formAdd()
+    public function create()
     {
-        return "formAdd";
+        return "Criando";
     }
 }

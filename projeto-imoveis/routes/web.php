@@ -9,6 +9,7 @@ Route::prefix('admin')->name('admin.')->group(function (){
 
     Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
     Route::get('/cities/create', [CityController::class, 'create'])->name('cities.create');
+    Route::post('/cities/create', [CityController::class, 'add'])->name('cities.add');
 
 });
 

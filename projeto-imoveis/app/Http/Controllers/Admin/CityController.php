@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\CityRequest;
 use App\Models\City;
 
 class CityController extends Controller
@@ -19,6 +20,15 @@ class CityController extends Controller
 
     public function create()
     {
-        return "Criando";
+        return view('admin.cities.create');
+    }
+
+    public function add(CityRequest $request)
+    {
+        City::create($request->all());
+
+        $request->session()->flash('success', "Cidade $request->name incluída com sucesso!");
+
+        return redirect()->route('admin.cities.index');
     }
 }

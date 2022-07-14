@@ -13,9 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('types', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 100);
+            $table->string('rua', 100);
+            $table->integer('numero');
+            $table->string('complemento', 10)->nullable();
+            $table->string('bairro', 100);
+
+            $table->foreignId('property_id')->constrained()->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -27,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('types');
+        Schema::dropIfExists('addresses');
     }
 };

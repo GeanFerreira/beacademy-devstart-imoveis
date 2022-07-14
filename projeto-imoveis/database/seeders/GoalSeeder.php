@@ -2,22 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\Goal;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class GoalSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call([
-            TypeSeeder::class,
-            GoalSeeder::class,
-            NeighborhoodSeeder::class
-        ]);
+        Goal::create(['name' => 'Rent']);
+        Goal::create(['name' => 'Sale']);
     }
 }

@@ -2,29 +2,23 @@
 @section('main-field')
     <section class="section">
 
-        {{--@if($errors->any())
-            <div class="red-text">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif--}}
-
-        <form action="{{ route('admin.cities.add') }}" method="POST">
+        <form action="{{ $action }}" method="POST">
             <!--Cross-Site Request Forgery-->
             @csrf
+            @isset($city)
+                @method('PUT')
+            @endisset
+
             <div class="input-field">
                 <label for="name">Nome</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" value="{{ old('name', $city->name ?? '') }}">
 
                 @error('name')
                     <span class="red-text text-accent-3"><small>{{ $message }}</small></span>
                 @enderror
             </div>
             <div class="right-align">
-                <a href="{{ url()->previous() }}" class="btn-flat waves-effect">Cancelar</a>
+                <a href="{{ route('admin.cities.index') }}" class="btn-flat waves-effect">Cancelar</a>
                 <button class="btn waves-effect waves-light" type="submit">Salvar</button>
             </div>
         </form>

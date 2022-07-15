@@ -9,6 +9,20 @@ class Property extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'terreno',
+        'salas',
+        'banheiros',
+        'dormitorios',
+        'garagens',
+        'descricao',
+        'preco',
+        'city_id',
+        'type_id',
+        'goal_id'
+    ];
+
     public function address()
     {
         return $this->hasOne(Address::class);
@@ -16,7 +30,7 @@ class Property extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'cidade_id');
+        return $this->belongsTo(City::class);
     }
 
     public function goal()

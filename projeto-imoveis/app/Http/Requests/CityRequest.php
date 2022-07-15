@@ -23,8 +23,16 @@ class CityRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => "bail|required|min:3|max:100|unique:cities,name,$this->id"
+        $id = $this->id ?? '';
+        $rules = [
+            'name' => "bail|required|min:3|max:100|unique:cities,name,$id"
         ];
+
+        if($this->method('PUT')){
+            $rules['name'] = [
+                'nullable'
+            ];
+        }
+        return $rules;
     }
 }

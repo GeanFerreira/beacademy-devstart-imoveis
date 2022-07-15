@@ -20,7 +20,7 @@
                     <a href="/" class="brand-logo">Sul Imóveis</a>
                     <ul class="right">
                         <li>
-                            <a href="#">Imóveis</a>
+                            <a href="{{ route('admin.properties.index') }}">Imóveis</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.cities.index') }}">Cidades</a>
@@ -41,6 +41,11 @@
             @if(session('success'))
                 M.toast({html: "{{session('success')}}"});
             @endif
+
+            document.addEventListener('DOMContentLoaded', function(){
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems);
+            });
         </script>
     </body>
 </html>

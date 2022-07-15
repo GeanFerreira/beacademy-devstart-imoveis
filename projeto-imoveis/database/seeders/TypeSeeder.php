@@ -15,8 +15,8 @@ class TypeSeeder extends Seeder
      */
     public function run()
     {
-        Type::create(['name' => 'Apartment']);
-        Type::create(['name' => 'Home']);
-        Type::create(['name' => 'Place of Business']);
+        Type::create(['name' => 'Apartmento']);
+        Type::create(['name' => 'Casa']);
+        Type::create(['name' => 'Ponto Comercial']);
     }
 }

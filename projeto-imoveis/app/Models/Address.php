@@ -9,6 +9,13 @@ class Address extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'rua',
+        'numero',
+        'complemento',
+        'bairro'
+    ];
+
     public function property()
     {
         return $this->belongsTo(Property::class);

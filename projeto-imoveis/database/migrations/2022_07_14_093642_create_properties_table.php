@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('descricao')->nullable();
             $table->decimal('preco', 12, 2);
 
-            $table->foreignId('cidade_id')->constrained()->onDelete('cascade');
+            $table->foreignId('city_id')->constrained()->onDelete('cascade');
             $table->foreignId('type_id')->constrained()->onDelete('cascade');
             $table->foreignId('goal_id')->constrained()->onDelete('cascade');
 

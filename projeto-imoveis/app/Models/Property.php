@@ -47,4 +47,9 @@ class Property extends Model
     {
         return $this->belongsToMany(Neighborhood::class)->withTimestamps();
     }
+
+    public function pictures()
+    {
+        return $this->hasMany(Picture::class);
+    }
 }

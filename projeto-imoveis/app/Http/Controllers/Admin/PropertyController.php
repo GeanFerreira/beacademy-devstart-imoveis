@@ -19,16 +19,32 @@ class PropertyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$properties = Property::with(['city', 'address'])->get();
         $properties = Property::join('cities', 'cities.id', '=', 'properties.city_id')
             ->join('addresses', 'addresses.property_id', '=', 'properties.id')
             ->orderBy('cities.name', 'asc')
             ->orderBy('addresses.bairro', 'asc')
-            ->orderBy('tile', 'asc')
-            ->get();
-        return view('admin.properties.index', compact('properties'));
+            ->orderBy('title', 'asc');
+
+        $city_id = $request->city_id;
+        $title = $request->title;
+
+        if($request->city_id)
+        {
+            $properties->where('cities.id', $city_id);
+        }
+
+        if($request->title)
+        {
+            $properties->where('title', 'like', "%$title%");
+        }
+        //WHERE city.id = 1 AND title like "%valor%" AND ...
+        $properties = $properties->paginate(1)->withQueryString();
+
+        $cities = City::orderBy('name')->get();
+
+        return view('admin.properties.index', compact('properties', 'cities', 'title', 'city_id'));
     }
 
     /**
@@ -77,7 +93,9 @@ class PropertyController extends Controller
      */
     public function show($id)
     {
-        //
+        $property = Property::with(['city', 'address', 'goal', 'type'])->find($id);
+
+        return view('admin.properties.show', compact('property'));
     }
 
     /**
@@ -88,7 +106,15 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $property = Property::with(['city', 'address', 'goal', 'type', 'neighborhood'])->find($id);
+
+        $cities = City::all();
+        $types = Type::all();
+        $goals = Goal::all();
+        $neighborhoods = Neighborhood::all();
+
+        $action = route('admin.properties.update', $property->id);
+        return view('admin.properties.form', compact('property','action', 'cities', 'types', 'goals', 'neighborhoods'));
     }
 
     /**
@@ -100,7 +126,20 @@ class PropertyController extends Controller
      */
     public function update(PropertyRequest $request, $id)
     {
-        //
+        $property = Property::find($id);
+
+        DB::beginTransaction();
+        $property->update($request->all());
+        $property->address->update($request->all());
+
+        if($request->has('neighborhoods'))
+        {
+            $property->neighborhoods()->sync($request->neighborhoods);
+        }
+        DB::commit();
+
+        $request->session()->flash('success', "Imóvel atualizado com sucesso!");
+        return redirect()->route('admin.properties.index');
     }
 
     /**
@@ -109,8 +148,15 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $property = Property::find($id);
+        DB::beginTransaction();
+        $property->address->delete();
+        $property->delete();
+        DB::commit();
+
+        $request->session()->flash('success', 'Imóvel excluído com sucesso!');
+        return redirect()->route('admin.properties.index');
     }
 }

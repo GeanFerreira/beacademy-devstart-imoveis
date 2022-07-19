@@ -18,7 +18,7 @@ class CityController extends Controller
     {
         $subtitle = 'Lista de Cidades';
         $cities = City::orderBy('name', 'asc')->get();
-        return view('admin.cities.index', compact('subtitle', 'cities'));
+        return view('admin.cities.index', compact('subtitle', 'cities'))->middleware('admin');
     }
 
     /**

@@ -21,7 +21,17 @@ Route::resource('cities.properties', App\Http\Controllers\Site\PropertyControlle
 
 // Route for auth
 
-Route::match(['get', 'post'],'/login', [UserController::class, 'index'])->name('auth.login');
-Route::post('/form', [UserController::class, 'form'])->name('form');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+//Route::match(['get', 'post'],, [UserController::class, 'index']);
+//Route::post('/form', [UserController::class, 'form'])->name('form');
+//Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

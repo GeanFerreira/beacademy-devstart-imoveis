@@ -1,99 +1,48 @@
-@extends('auth.layouts.main')
-@section('main-field')
+<x-guest-layout>
+    <x-jet-authentication-card>
+        <x-slot name="logo">
+            <x-jet-authentication-card-logo />
+        </x-slot>
 
-<div id="flayer">
-    <div id="slayer">
-        <div class="container" id="content">
+        <x-jet-validation-errors class="mb-4" />
 
-            <div class="row">
-                <div class="col l3 m3 s12"></div>
-                <div class="col l6 m6 s12">
-                    <form action="" method="POST">
-                        <div class="card-panel z-depth-5">
-                            <h5 class="center">Registre-se</h5>
-                            <p class="center">Maior rede de imóveis do sul!</p>
-                            <div class="input-field">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input type="text" name="name">
-                                <label for="name">Digite seu nome</label>
-                            </div>
-
-                            <div class="input-field">
-                                <i class="material-icons prefix">email</i>
-                                <input type="email" name="email" class="validate">
-                                <label for="email">Digite seu email</label>
-                            </div>
-
-                            <div class="input-field">
-                                <i class="material-icons prefix">lock</i>
-                                <input type="password" name="pass1">
-                                <label for="pass1">Digite sua senha</label>
-                            </div>
-
-
-                            <div class="input-field">
-                                <i class="material-icons prefix">vpn_key</i>
-                                <input type="password" name="pass2">
-                                <label for="pass2">Confirme sua senha</label>
-                            </div>
-                            <p class="center">Você já tem uma conta? <a href="#login" class="modal-trigger">login</a></p>
-                            <input type="submit" name="submit" value="registrar" class="btn left col s12">
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="col l3 m3 s12"></div>
-
-
-
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
             </div>
-        </div>
-    </div>
-</div>
-<!-- login form put in the form -->
-<div class="modal modal-fixed-footer" id="login">
-    <form action="" method="POST">
-        <div class="modal-conent">
-            <div class="container">
-                <h5 class="center">Login</h5>
-                <p class="center">Venha conhecer nossos imóveis</p>
-                <div class="row">
+        @endif
 
-                    <div class="col m12 s12">
-                        <div class="input-field">
-                            <i class="material-icons prefix">person</i>
-                            <input type="text" name="username">
-                            <label>Digite seu nome ou email</label>
-                        </div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-                        <div class="input-field">
-                            <i class="material-icons prefix">lock</i>
-                            <input type="password" name="pass1">
-                            <label>Digite sua senha</label>
-                        </div>
-                        <p>
-                            <label>
-                                <input type="checkbox">
-                                <span>Lembrar</span>
-                            </label>
-                        </p>
-                    </div>
-
-                </div>
-            </div><!-- end of modal container -->
-        </div>
-
-        <div class="modal-footer">
-            <div class="container">
-                <p class="left">Você é novo? <a href="#" class="modal-trigger">Registrar</a></p>
-                <input type="submit" name="submit" value="login" class="btn pulse">
-                <input type="button"  value="close" class="btn modal-close red">
+            <div>
+                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
-        </div>
 
-</form>
-</div>
+            <div class="mt-4">
+                <x-jet-label for="password" value="{{ __('Password') }}" />
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            </div>
 
-@endsection
+            <div class="block mt-4">
+                <label for="remember_me" class="flex items-center">
+                    <x-jet-checkbox id="remember_me" name="remember" />
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                @endif
+
+                <x-jet-button class="ml-4">
+                    {{ __('Log in') }}
+                </x-jet-button>
+            </div>
+        </form>
+    </x-jet-authentication-card>
+</x-guest-layout>
